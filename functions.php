@@ -1,6 +1,7 @@
 <?php
 
 require_once( get_theme_file_path( "/inc/tgm.php" ) );
+require_once( get_theme_file_path( "/inc/attachments.php" ) );
 
 if ( site_url() == "http://demo.lwhh.com" ) {
     define( "VERSION", time() );
@@ -52,3 +53,5 @@ function philosophy_pagination() {
     $links = str_replace( "prev pgn__num", "pgn__prev", $links );
     echo $links;
 }
+
+remove_action("term_description","wpautop");
