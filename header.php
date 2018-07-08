@@ -21,9 +21,7 @@
 
 <!-- pageheader
 ================================================== -->
-<section class="s-pageheader <?php if ( is_home() ) {
-    echo "s-pageheader--home";
-} ?>">
+<section class="s-pageheader <?php echo apply_filters("philosophy_home_banner_class","s-pageheader--home"); ?>">
 
     <header class="header">
         <div class="header__content row">

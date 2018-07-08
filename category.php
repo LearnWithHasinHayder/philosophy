@@ -1,3 +1,4 @@
+<?php do_action("philosphy_category_page",single_cat_title('',false)); ?>
 <?php get_header() ?>
 
 
@@ -7,13 +8,18 @@
 
         <div class="row narrow">
             <div class="col-full s-content__header" data-aos="fade-up">
+                <?php echo apply_filters("philosophy_text","hello","wonderful", "world"); ?>
+                <?php do_action("philosphy_before_category_title"); ?>
                 <h1>
                     <?php single_cat_title(); ?>
                 </h1>
+                <?php do_action("philosphy_after_category_title"); ?>
 
+                <?php do_action("philosphy_before_category_description"); ?>
                 <p class="lead">
                     <?php echo category_description(); ?>
                 </p>
+                <?php do_action("philosphy_after_category_description"); ?>
             </div>
         </div>
 
