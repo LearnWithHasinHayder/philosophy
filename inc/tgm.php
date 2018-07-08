@@ -71,6 +71,16 @@ function philosophy_register_required_plugins() {
             'slug'     => 'attachments',
             'required' => false,
         ),
+        array(
+            'name'     => 'WP Google Mapls',
+            'slug'     => 'wp-google-maps',
+            'required' => false,
+        ),
+        array(
+            'name'     => 'Contact Form 7',
+            'slug'     => 'contact-form-7',
+            'required' => false,
+        ),
 
 
     );
