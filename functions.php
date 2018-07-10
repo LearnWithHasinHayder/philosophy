@@ -2,6 +2,7 @@
 
 require_once( get_theme_file_path( "/inc/tgm.php" ) );
 require_once( get_theme_file_path( "/inc/attachments.php" ) );
+require_once( get_theme_file_path( "/widgets/social-icons-widget.php" ) );
 
 if ( site_url() == "http://demo.lwhh.com" ) {
     define( "VERSION", time() );
@@ -19,6 +20,11 @@ function philosophy_theme_setup() {
 
 
     register_nav_menu( "topmenu", __( "Top Menu", "philosophy" ) );
+    register_nav_menus(array(
+       "footer-left"=>__("Footer Left Menu","philosophy"),
+       "footer-middle"=>__("Footer Middle Menu","philosophy"),
+       "footer-right"=>__("Footer Right Menu","philosophy"),
+    ));
     add_image_size( "philosophy-home-square", 400, 400, true );
 }
 
@@ -87,6 +93,37 @@ function philosophy_widgets() {
         'before_title'  => '<h3 class="quarter-top-margin">',
         'after_title'   => '</h3>',
     ) );
+
+    register_sidebar( array(
+        'name'          => __( 'Before Footer Section', 'philosophy' ),
+        'id'            => 'before-footer-right',
+        'description'   => __( 'before footer section, right side', 'philosophy' ),
+        'before_widget' => '<div id="%1$s" class="%2$s">',
+        'after_widget'  => '</div>',
+        'before_title'  => '<h3>',
+        'after_title'   => '</h3>',
+    ) );
+
+    register_sidebar( array(
+        'name'          => __( 'Footer Section', 'philosophy' ),
+        'id'            => 'footer-right',
+        'description'   => __( 'footer section, right side', 'philosophy' ),
+        'before_widget' => '<div id="%1$s" class="%2$s">',
+        'after_widget'  => '</div>',
+        'before_title'  => '<h4>',
+        'after_title'   => '</h4>',
+    ) );
+
+    register_sidebar( array(
+        'name'          => __( 'Footer Bottom Section', 'philosophy' ),
+        'id'            => 'footer-bottom',
+        'description'   => __( 'footer section, bottom side', 'philosophy' ),
+        'before_widget' => '<div id="%1$s" class="%2$s">',
+        'after_widget'  => '</div>',
+        'before_title'  => '',
+        'after_title'   => '',
+    ) );
+
 }
 
 add_action( "widgets_init", "philosophy_widgets" );
