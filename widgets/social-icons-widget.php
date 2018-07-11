@@ -39,17 +39,16 @@ class LwhhSocialIcons_Widget extends WP_Widget {
         );
         $title        = apply_filters( 'widget_title', $instance['title'] );
 
-        echo $before_widget;
+        echo wp_kses_post($before_widget);
         ?>
-        <ul class="about__social">
+        <ul class="<?php echo esc_attr($instance['classname']); ?>">
             <?php
             if ( $title ) {
                 echo "<div class=\"widget-title\">";
-                echo $before_title . esc_html( $title ) . $after_title;
+                echo wp_kses_post($before_title) . esc_html( $title ) . wp_kses_post($after_title);
                 echo "</div>";
             }
             ?>
-            <div class="social-link">
                 <?php
                 foreach ( $social_icons as $sci ) {
                     $url = trim( $instance[ $sci ] );
@@ -63,10 +62,9 @@ class LwhhSocialIcons_Widget extends WP_Widget {
                 }
                 ?>
 
-            </div>
         </ul>
         <?php
-        echo $after_widget;
+        echo wp_kses_post($after_widget);
 
     }
 
@@ -83,6 +81,7 @@ class LwhhSocialIcons_Widget extends WP_Widget {
     public function update( $new_instance, $old_instance ) {
         $instance                = array();
         $instance['title']       = strip_tags( $new_instance['title'] );
+        $instance['classname']       = strip_tags( $new_instance['classname'] );
         $instance['facebook']    = strip_tags( $new_instance['facebook'] );
         $instance['twitter']     = strip_tags( $new_instance['twitter'] );
         $instance['github']      = strip_tags( $new_instance['github'] );
@@ -113,6 +112,11 @@ class LwhhSocialIcons_Widget extends WP_Widget {
             $title = __( 'Social Icons', 'philosophy' );
         }
 
+        $classname = '';
+        if ( isset( $instance['classname'] ) ) {
+            $classname = $instance['classname'];
+        }
+
 
         $social_icons = array(
             "facebook",
@@ -140,10 +144,16 @@ class LwhhSocialIcons_Widget extends WP_Widget {
                    name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text"
                    value="<?php echo esc_attr( $title ); ?>"/>
         </p>
+        <p>
+            <label for="<?php echo esc_attr( $this->get_field_id( 'classname' ) ); ?>"><?php _e( 'CSS Class name:', 'philosophy' ); ?></label>
+            <input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'classname' ) ); ?>"
+                   name="<?php echo esc_attr( $this->get_field_name( 'classname' ) ); ?>" type="text"
+                   value="<?php echo esc_attr( $classname ); ?>"/>
+        </p>
         <?php foreach ( $social_icons as $sci ) {
             ?>
             <p>
-                <label for="<?php echo $this->get_field_id( $sci ) ; ?>"><?php echo esc_html( ucfirst( $sci ) . " " . __( 'URL', 'philosophy' ) ); ?>
+                <label for="<?php echo esc_attr($this->get_field_id( $sci )) ; ?>"><?php echo esc_html( ucfirst( $sci ) . " " . __( 'URL', 'philosophy' ) ); ?>
                     : </label>
                 <br/>
 

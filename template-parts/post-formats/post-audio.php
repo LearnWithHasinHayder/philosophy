@@ -4,7 +4,7 @@ if(function_exists("the_field")){
     $philosophy_audio_file = get_field("source_file");
 }
 ?>
-<article class="masonry__brick entry format-audio" data-aos="fade-up">
+<article <?php post_class('masonry__brick entry format-audio'); ?> data-aos="fade-up">
 
     <div class="entry__thumb">
         <a href="<?php the_permalink(); ?>" class="entry__thumb-link">

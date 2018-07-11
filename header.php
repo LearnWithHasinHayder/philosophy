@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="no-js" lang="en">
+<html class="no-js" <?php language_attributes(); ?>>
 <head>
 
     <!--- basic page needs
@@ -27,38 +27,25 @@
         <div class="header__content row">
 
             <div class="header__logo">
-                <a class="logo" href="index.html">
-                    <img src="<?php echo get_template_directory_uri(); ?>/assets/images/logo.svg" alt="Homepage">
-                </a>
+                <?php if(has_custom_logo()){
+                  the_custom_logo();
+                }else{
+                    echo "<h1><a href='".home_url("/")."'>".get_bloginfo('name')."</a></h1>";
+                }
+                ?>
             </div> <!-- end header__logo -->
 
-            <ul class="header__social">
-                <li>
-                    <a href="#0"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-                </li>
-                <li>
-                    <a href="#0"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-                </li>
-                <li>
-                    <a href="#0"><i class="fa fa-instagram" aria-hidden="true"></i></a>
-                </li>
-                <li>
-                    <a href="#0"><i class="fa fa-pinterest" aria-hidden="true"></i></a>
-                </li>
-            </ul> <!-- end header__social -->
+            <?php
+            if(is_active_sidebar("header-section")){
+                dynamic_sidebar("header-section");
+            }
+            ?>
 
             <a class="header__search-trigger" href="#0"></a>
 
             <div class="header__search">
 
-                <form role="search" method="get" class="header__search-form" action="#">
-                    <label>
-                        <span class="hide-content">Search for:</span>
-                        <input type="search" class="search-field" placeholder="Type Keywords" value="" name="s"
-                               title="Search for:" autocomplete="off">
-                    </label>
-                    <input type="submit" class="search-submit" value="Search">
-                </form>
+                <?php get_search_form(); ?>
 
                 <a href="#0" title="Close Search" class="header__overlay-close">Close</a>
 

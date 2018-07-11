@@ -7,9 +7,9 @@
                 <?php
                 $philosophy_cn = get_comments_number();
                 if ( $philosophy_cn <= 1 ) {
-                    echo $philosophy_cn . " " . __( "Comment", "philosophy" );
+                    echo esc_html($philosophy_cn) . " " . __( "Comment", "philosophy" );
                 } else {
-                    echo $philosophy_cn . " " . __( "Comments", "philosophy" );
+                    echo esc_html($philosophy_cn) . " " . __( "Comments", "philosophy" );
                 }
                 ?>
             </h3>
@@ -26,9 +26,9 @@
             <div class="comments-pagination">
                 <?php
                 the_comments_pagination( array(
-                    'screen_reader_text' => __( 'Pagination', 'alpha' ),
-                    'prev_text'          => '<' . __( 'Previous Comments', 'alpha' ),
-                    'next_text'          => '>' . __( 'Next Comments', 'alpha' ),
+                    'screen_reader_text' => __( 'Pagination', 'philosophy' ),
+                    'prev_text'          => '<' . __( 'Previous Comments', 'philosophy' ),
+                    'next_text'          => '>' . __( 'Next Comments', 'philosophy' ),
                 ) );
                 ?>
             </div>
