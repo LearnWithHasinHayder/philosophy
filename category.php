@@ -10,6 +10,8 @@
             <div class="col-full s-content__header" data-aos="fade-up">
                 <?php //echo apply_filters("philosophy_text","hello","wonderful", "world"); ?>
                 <?php do_action("philosphy_before_category_title"); ?>
+                <h2><?php _e("New Translatable Text",'philosophy'); ?></h2>
+                <h2><?php printf(__("%s Hello World",'philosophy'),"Hi,"); ?></h2>
                 <h1>
                     <?php single_cat_title(); ?>
                 </h1>

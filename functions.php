@@ -15,7 +15,7 @@ if ( site_url() == "http://demo.lwhh.com" ) {
 }
 
 function philosophy_theme_setup() {
-    load_theme_textdomain( "philosophy" );
+    load_theme_textdomain( "philosophy", get_theme_file_path( "/languages" ) );
     add_theme_support( "post-thumbnails" );
     add_theme_support( "custom-logo" );
     add_theme_support( "title-tag" );
@@ -51,23 +51,26 @@ function philosophy_assets() {
         wp_enqueue_script( "comment-reply" );
     }
     wp_enqueue_script( "main-js", get_theme_file_uri( "/assets/js/main.js" ), array( "jquery" ), "1.0", true );
+    wp_enqueue_script( "filter-js", get_theme_file_uri( "/assets/js/filter.js" ), array( "jquery" ), time(), true );
 }
 
 add_action( "wp_enqueue_scripts", "philosophy_assets" );
 
-function philosophy_pagination() {
-    global $wp_query;
-    $links = paginate_links( array(
-        'current'  => max( 1, get_query_var( 'paged' ) ),
-        'total'    => $wp_query->max_num_pages,
-        'type'     => 'list',
-        'mid_size' => apply_filters( "philosophy_pagination_mid_size", 3 )
-    ) );
-    $links = str_replace( "page-numbers", "pgn__num", $links );
-    $links = str_replace( "<ul class='pgn__num'>", "<ul>", $links );
-    $links = str_replace( "next pgn__num", "pgn__next", $links );
-    $links = str_replace( "prev pgn__num", "pgn__prev", $links );
-    echo wp_kses_post( $links );
+if ( ! function_exists( "philosophy_pagination" ) ) {
+    function philosophy_pagination() {
+        global $wp_query;
+        $links = paginate_links( array(
+            'current'  => max( 1, get_query_var( 'paged' ) ),
+            'total'    => $wp_query->max_num_pages,
+            'type'     => 'list',
+            'mid_size' => apply_filters( "philosophy_pagination_mid_size", 3 )
+        ) );
+        $links = str_replace( "page-numbers", "pgn__num", $links );
+        $links = str_replace( "<ul class='pgn__num'>", "<ul>", $links );
+        $links = str_replace( "next pgn__num", "pgn__next", $links );
+        $links = str_replace( "prev pgn__num", "pgn__prev", $links );
+        echo wp_kses_post( $links );
+    }
 }
 
 remove_action( "term_description", "wpautop" );
@@ -171,11 +174,18 @@ function category_after_title() {
 
 add_action( "philosphy_after_category_title", "category_after_title" );
 
+
 function category_after_desc() {
     echo "<p>After Description</p>";
 }
 
 add_action( "philosphy_after_category_description", "category_after_desc" );
+
+remove_action( "philosphy_before_category_title", "category_before_title1" );
+remove_action( "philosphy_before_category_title", "category_before_title2", 4 );
+remove_action( "philosphy_before_category_title", "category_before_title3", 9 );
+remove_action( "philosphy_after_category_title", "category_after_title" );
+remove_action( "philosphy_after_category_description", "category_after_desc" );
 
 
 function beginning_category_page( $category_title ) {
@@ -217,6 +227,17 @@ function philosophy_search_form( $form ) {
     $homedir      = home_url( "/" );
     $label        = __( "Search for:", "philosophy" );
     $button_label = __( "Search", "philosophy" );
+    $post_type = <<<PT
+<input type="hidden" name="post_type" value="post">
+PT;
+
+    if(is_post_type_archive('book')){
+        $post_type = <<<PT
+<input type="hidden" name="post_type" value="book">
+PT;
+    }
+
+
     $newform      = <<<FORM
 <form role="search" method="get" class="header__search-form" action="{$homedir}">
     <label>
@@ -224,15 +245,15 @@ function philosophy_search_form( $form ) {
         <input type="search" class="search-field" placeholder="Type Keywords" value="" name="s"
                title="{$label}" autocomplete="off">
     </label>
+    {$post_type}
     <input type="submit" class="search-submit" value="{$button_label}">
 </form>
 FORM;
 
     return $newform;
-
 }
 
-add_filter( "get_search_form", "philosophy_search_form" );
 
+add_filter( "get_search_form", "philosophy_search_form" );
 
 
