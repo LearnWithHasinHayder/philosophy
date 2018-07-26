@@ -2,6 +2,7 @@
 
 require_once( get_theme_file_path( "/inc/tgm.php" ) );
 require_once( get_theme_file_path( "/inc/attachments.php" ) );
+require_once( get_theme_file_path( "/inc/cmb2-attached-posts.php" ) );
 require_once( get_theme_file_path( "/widgets/social-icons-widget.php" ) );
 
 if ( ! isset( $content_width ) ) {

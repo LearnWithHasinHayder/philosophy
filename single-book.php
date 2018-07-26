@@ -55,6 +55,21 @@ get_header();
 
                     printf("<a href='%s'>%s</a><br/>",$philosophy_chl,$philosophy_cht);
                 }
+                wp_reset_query();
+
+                echo "<h3>";
+                _e('Chapters','philosophy');
+                echo "</h3>";
+
+                $philosophy_cmb2_chapters = get_post_meta( get_the_ID(), 'attached_cmb2_attached_posts', true );
+                //print_r($philosophy_cmb2_chapters);
+
+                foreach($philosophy_cmb2_chapters as $pch){
+                    $philosophy_chl = get_the_permalink($pch);
+                    $philosophy_cht = get_the_title($pch);
+
+                    printf("<a href='%s'>%s</a><br/>",$philosophy_chl,$philosophy_cht);
+                }
                 ?>
 
 
@@ -67,6 +82,17 @@ get_header();
                         ?>
                     </span>
                 </p> <!-- end s-content__tags -->
+
+                <p class="s-content__tags">
+                    <span><?php _e("Language",'philosophy') ?></span>
+
+                    <span class="s-content__tag-list">
+                        <?php
+                        the_terms(get_the_ID(),'language','','','');
+                        ?>
+                    </span>
+                </p> <!-- end s-content__tags -->
+
 
                 <div class="s-content__author">
                     <?php echo get_avatar( get_the_author_meta( "ID" ) ); ?>

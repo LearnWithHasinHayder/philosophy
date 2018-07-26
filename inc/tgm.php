@@ -80,6 +80,11 @@ function philosophy_register_required_plugins() {
             'name'     => 'Contact Form 7',
             'slug'     => 'contact-form-7',
             'required' => false,
+        ),array(
+            'name'     => 'CMB2 Attached Posts',
+            'slug'     => 'cmb2-attached-posts',
+            'required' => true,
+            'source'=>'https://github.com/CMB2/cmb2-attached-posts/archive/master.zip'
         ),
 
 
