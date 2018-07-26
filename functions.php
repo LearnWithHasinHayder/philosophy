@@ -227,18 +227,18 @@ function philosophy_search_form( $form ) {
     $homedir      = home_url( "/" );
     $label        = __( "Search for:", "philosophy" );
     $button_label = __( "Search", "philosophy" );
-    $post_type = <<<PT
+    $post_type    = <<<PT
 <input type="hidden" name="post_type" value="post">
 PT;
 
-    if(is_post_type_archive('book')){
+    if ( is_post_type_archive( 'book' ) ) {
         $post_type = <<<PT
 <input type="hidden" name="post_type" value="book">
 PT;
     }
 
 
-    $newform      = <<<FORM
+    $newform = <<<FORM
 <form role="search" method="get" class="header__search-form" action="{$homedir}">
     <label>
         <span class="hide-content">{$label}</span>
@@ -255,5 +255,20 @@ FORM;
 
 
 add_filter( "get_search_form", "philosophy_search_form" );
+
+
+function philosophy_cpt_slug_fix($post_link, $id){
+    $p = get_post($id);
+    if(is_object($p) && 'chapter'==get_post_type($id)){
+        $parent_post_id = get_field('parent_book');
+        $parent_post = get_post($parent_post_id);
+        if($parent_post){
+            $post_link = str_replace("%book%",$parent_post->post_name,$post_link);
+        }
+
+    }
+    return $post_link;
+}
+add_filter('post_type_link','philosophy_cpt_slug_fix',1,2);
 
 

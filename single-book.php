@@ -33,8 +33,30 @@ get_header();
 
                 <?php
                 the_content();
-                wp_link_pages( );
+                wp_link_pages();
+
+                $philosophy_chargs = array(
+                    'post_type'      => 'chapter',
+                    'posts_per_page' => - 1,
+                    'meta_key'       => 'parent_book',
+                    'meta_value'     => get_the_ID()
+                );
+
+                $philosophy_chapters = new WP_Query($philosophy_chargs);
+                //echo $philosophy_chapters->found_posts;
+                echo "<h3>";
+                _e('Chapters','philosophy');
+                echo "</h3>";
+
+                while($philosophy_chapters->have_posts()){
+                    $philosophy_chapters->the_post();
+                    $philosophy_chl = get_the_permalink();
+                    $philosophy_cht = get_the_title();
+
+                    printf("<a href='%s'>%s</a><br/>",$philosophy_chl,$philosophy_cht);
+                }
                 ?>
+
 
                 <p class="s-content__tags">
                     <span>Post Tags</span>
@@ -118,7 +140,7 @@ get_header();
         <!-- comments
         ================================================== -->
         <?php
-        if(!post_password_required()){
+        if ( ! post_password_required() ) {
             comments_template();
         }
         ?>
