@@ -64,11 +64,13 @@ get_header();
                 $philosophy_cmb2_chapters = get_post_meta( get_the_ID(), 'attached_cmb2_attached_posts', true );
                 //print_r($philosophy_cmb2_chapters);
 
-                foreach($philosophy_cmb2_chapters as $pch){
-                    $philosophy_chl = get_the_permalink($pch);
-                    $philosophy_cht = get_the_title($pch);
+                if(is_array($philosophy_cmb2_chapters)) {
+                    foreach ( $philosophy_cmb2_chapters as $pch ) {
+                        $philosophy_chl = get_the_permalink( $pch );
+                        $philosophy_cht = get_the_title( $pch );
 
-                    printf("<a href='%s'>%s</a><br/>",$philosophy_chl,$philosophy_cht);
+                        printf( "<a href='%s'>%s</a><br/>", $philosophy_chl, $philosophy_cht );
+                    }
                 }
                 ?>
 

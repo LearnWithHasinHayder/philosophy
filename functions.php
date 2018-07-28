@@ -266,7 +266,17 @@ function philosophy_cpt_slug_fix( $post_link, $id ) {
         if ( $parent_post ) {
             $post_link = str_replace( "%book%", $parent_post->post_name, $post_link );
         }
+    }
 
+    if(is_object($p) && 'book'==get_post_type($p)){
+        $genre = wp_get_post_terms($p->ID,'genre');
+        if(is_array($genre) && count($genre)>0){
+            $slug = $genre[0]->slug;
+            $post_link = str_replace( "%genre%", $slug, $post_link );
+        }else{
+            $slug = "generic";
+            $post_link = str_replace( "%genre%", $slug, $post_link );
+        }
     }
 
     return $post_link;
@@ -275,7 +285,7 @@ function philosophy_cpt_slug_fix( $post_link, $id ) {
 add_filter( 'post_type_link', 'philosophy_cpt_slug_fix', 1, 2 );
 
 function philosophy_footer_language_heading( $title ) {
-    if ( is_post_type_archive( 'book' ) || is_tax('language') ) {
+    if ( is_post_type_archive( 'book' ) || is_tax( 'language' ) ) {
         $title = __( 'Languages', 'philosophy' );
     }
 
@@ -285,12 +295,13 @@ function philosophy_footer_language_heading( $title ) {
 add_filter( 'philosophy_footer_tag_heading', 'philosophy_footer_language_heading' );
 
 function philosophy_footer_language_terms( $tags ) {
-    if ( is_post_type_archive( 'book' ) || is_tax('language') ) {
+    if ( is_post_type_archive( 'book' ) || is_tax( 'language' ) ) {
         $tags = get_terms( array(
             'taxonomy'   => 'language',
             'hide_empty' => true
         ) );
     }
+
     return $tags;
 }
 
