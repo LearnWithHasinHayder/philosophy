@@ -4,6 +4,10 @@ require_once( get_theme_file_path( "/inc/tgm.php" ) );
 require_once( get_theme_file_path( "/inc/attachments.php" ) );
 require_once( get_theme_file_path( "/inc/cmb2-attached-posts.php" ) );
 require_once( get_theme_file_path( "/widgets/social-icons-widget.php" ) );
+require_once( get_theme_file_path( "/lib/csf/cs-framework.php" ) );
+require_once( get_theme_file_path( "/inc/cs.php" ) );
+
+define( 'CS_ACTIVE_LIGHT_THEME',  true  ); // default false
 
 if ( ! isset( $content_width ) ) {
     $content_width = 960;
@@ -268,13 +272,13 @@ function philosophy_cpt_slug_fix( $post_link, $id ) {
         }
     }
 
-    if(is_object($p) && 'book'==get_post_type($p)){
-        $genre = wp_get_post_terms($p->ID,'genre');
-        if(is_array($genre) && count($genre)>0){
-            $slug = $genre[0]->slug;
+    if ( is_object( $p ) && 'book' == get_post_type( $p ) ) {
+        $genre = wp_get_post_terms( $p->ID, 'genre' );
+        if ( is_array( $genre ) && count( $genre ) > 0 ) {
+            $slug      = $genre[0]->slug;
             $post_link = str_replace( "%genre%", $slug, $post_link );
-        }else{
-            $slug = "generic";
+        } else {
+            $slug      = "generic";
             $post_link = str_replace( "%genre%", $slug, $post_link );
         }
     }
