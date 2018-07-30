@@ -19,7 +19,7 @@ function philosophy_page_metabox( $options ) {
     }
 
     $current_page_template = get_post_meta( $page_id, '_wp_page_template', true );
-    if ( !in_array($current_page_template,array('about.php','contact.php')) ) {
+    if ( ! in_array( $current_page_template, array( 'about.php', 'contact.php' ) ) ) {
         return $options;
     }
 
@@ -130,7 +130,7 @@ function philosophy_page_metabox( $options ) {
 
 add_filter( 'cs_metabox_options', 'philosophy_page_metabox' );
 
-function philosophy_upload_metabox($options){
+function philosophy_upload_metabox( $options ) {
 
     $options[] = array(
         'id'        => 'page-upload-metabox',
@@ -145,35 +145,35 @@ function philosophy_upload_metabox($options){
                 'icon'   => 'fa fa-image',
                 'fields' => array(
                     array(
-                        'id'      => 'page-upload',
-                        'type'    => 'upload',
-                        'title'   => __( 'Upload PDF', 'philosophy' ),
-                        'settings'      => array(
+                        'id'       => 'page-upload',
+                        'type'     => 'upload',
+                        'title'    => __( 'Upload PDF', 'philosophy' ),
+                        'settings' => array(
                             'upload_type'  => 'video/mp4',
-                            'button_title' => __('Upload','philosophy'),
-                            'frame_title'  => __('Select a PDF','philosophy'),
-                            'insert_title' => __('Use this PDF','philosophy')
+                            'button_title' => __( 'Upload', 'philosophy' ),
+                            'frame_title'  => __( 'Select a PDF', 'philosophy' ),
+                            'insert_title' => __( 'Use this PDF', 'philosophy' )
                         ),
                     ),
                     array(
-                        'id'      => 'page-image',
-                        'type'    => 'image',
-                        'title'   => __( 'Upload Image', 'philosophy' ),
-                        'add_title'   => __( 'Add An Image', 'philosophy' ),
+                        'id'        => 'page-image',
+                        'type'      => 'image',
+                        'title'     => __( 'Upload Image', 'philosophy' ),
+                        'add_title' => __( 'Add An Image', 'philosophy' ),
                     ),
                     array(
-                        'id'      => 'page-gallery',
-                        'type'    => 'gallery',
-                        'title'   => __( 'Upload Image', 'philosophy' ),
+                        'id'          => 'page-gallery',
+                        'type'        => 'gallery',
+                        'title'       => __( 'Upload Image', 'philosophy' ),
                         'add_title'   => __( 'Add Images', 'philosophy' ),
-                        'edit_title'   => __( 'Edit Gallery', 'philosophy' ),
-                        'clear_title'   => __( 'Clear Gallery', 'philosophy' ),
+                        'edit_title'  => __( 'Edit Gallery', 'philosophy' ),
+                        'clear_title' => __( 'Clear Gallery', 'philosophy' ),
                     ),
                     array(
-                        'id'        => 'fieldset_1',
-                        'type'      => 'fieldset',
-                        'title'     => 'Fieldset Field',
-                        'fields'    => array(
+                        'id'     => 'fieldset_1',
+                        'type'   => 'fieldset',
+                        'title'  => 'Fieldset Field',
+                        'fields' => array(
 
                             array(
                                 'id'    => 'fieldset_1_text',
@@ -198,15 +198,15 @@ function philosophy_upload_metabox($options){
                         'accordion_title' => 'Add New Field',
                         'fields'          => array(
                             array(
-                                'id'    => 'featured_posts',
-                                'type'  => 'select',
-                                'title'=>'select a book',
-                                'options'=>'posts',
-                                'query_args'     => array(
-                                    'post_type'    => 'book',
-                                    'posts_per_page'=>-1,
-                                    'orderby'      => 'post_date',
-                                    'order'        => 'DESC',
+                                'id'         => 'featured_posts',
+                                'type'       => 'select',
+                                'title'      => 'select a book',
+                                'options'    => 'posts',
+                                'query_args' => array(
+                                    'post_type'      => 'book',
+                                    'posts_per_page' => - 1,
+                                    'orderby'        => 'post_date',
+                                    'order'          => 'DESC',
                                 ),
                             ),
 
@@ -220,7 +220,99 @@ function philosophy_upload_metabox($options){
 
     return $options;
 }
+
 add_filter( 'cs_metabox_options', 'philosophy_upload_metabox' );
+
+function philosophy_custom_post_types( $options ) {
+
+    $page_id = 0;
+    if ( isset( $_REQUEST['post'] ) || isset( $_REQUEST['post_ID'] ) ) {
+        $page_id = empty( $_REQUEST['post_ID'] ) ? $_REQUEST['post'] : $_REQUEST['post_ID'];
+    }
+
+
+    $options[] = array(
+        'id'        => 'page-custom_post_type',
+        'title'     => __( 'Select Post Type', 'philosophy' ),
+        'post_type' => 'page',
+        'context'   => 'normal',
+        'priority'  => 'default',
+        'sections'  => array(
+            array(
+                'name'   => 'page-section1',
+//                'title'  => __( 'Post Type', 'philosophy' ),
+                'icon'   => 'fa fa-image',
+                'fields' => array(
+                    array(
+                        'id'      => 'cpt_type',
+                        'type'    => 'select',
+                        'title'   => 'select a custom post type',
+                        'options' => array(
+                            'none'    => 'None',
+                            'book'    => 'Book',
+                            'chapter' => 'Chapter'
+                        )
+                    ),
+                )
+            )
+        )
+    );
+
+    $page_meta_info = get_post_meta( $page_id, 'page-custom_post_type', true );
+
+    if ( isset( $page_meta_info['cpt_type'] ) && $page_meta_info['cpt_type'] == 'book' ) {
+        $options[] = array(
+            'id'        => 'page-custom_post_type_book',
+            'title'     => __( 'Options For Book', 'philosophy' ),
+            'post_type' => 'page',
+            'context'   => 'normal',
+            'priority'  => 'default',
+            'sections'  => array(
+                array(
+                    'name'   => 'page-section1',
+//                'title'  => __( 'Post Type', 'philosophy' ),
+                    'icon'   => 'fa fa-image',
+                    'fields' => array(
+                        array(
+                            'id'    => 'option_book_text',
+                            'type'  => 'text',
+                            'title' => 'Some Book Info',
+                        ),
+                    )
+                )
+            )
+        );
+    }
+
+    if ( isset( $page_meta_info['cpt_type'] ) && $page_meta_info['cpt_type'] == 'chapter' ) {
+        $options[] = array(
+            'id'        => 'page-custom_post_type_chapter',
+            'title'     => __( 'Options For Chapter', 'philosophy' ),
+            'post_type' => 'page',
+            'context'   => 'normal',
+            'priority'  => 'default',
+            'sections'  => array(
+                array(
+                    'name'   => 'page-section1',
+//                'title'  => __( 'Post Type', 'philosophy' ),
+                    'icon'   => 'fa fa-image',
+                    'fields' => array(
+                        array(
+                            'id'    => 'option_chapter_text',
+                            'type'  => 'text',
+                            'title' => 'Some chapter Info',
+                        ),
+                    )
+                )
+            )
+        );
+    }
+
+    return $options;
+}
+
+add_filter( 'cs_metabox_options', 'philosophy_custom_post_types' );
+
 
 
 
