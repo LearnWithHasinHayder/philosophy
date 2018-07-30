@@ -9,6 +9,7 @@ require_once( get_theme_file_path( "/inc/cs.php" ) );
 
 define( 'CS_ACTIVE_LIGHT_THEME',  true  ); // default false
 
+
 if ( ! isset( $content_width ) ) {
     $content_width = 960;
 }
@@ -313,8 +314,9 @@ add_filter( 'philosophy_footer_tag_items', 'philosophy_footer_language_terms' );
 
 
 
-
-
+function check_active(){
+    return false;
+}
 
 
 

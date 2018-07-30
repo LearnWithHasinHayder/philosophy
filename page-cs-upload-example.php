@@ -35,12 +35,22 @@ get_header();
                 the_content();
                 wp_link_pages( );
 
-                $philosophy_page_meta = get_post_meta(get_the_ID(),'page-metabox',true);
-                echo esc_html($philosophy_page_meta['page-heading'])."<br/>";
-                echo esc_html($philosophy_page_meta['page-teaser'])."<br/>";
+                $philosophy_page_meta = get_post_meta(get_the_ID(),'page-upload-metabox',true);
+                echo "<pre>";
+                print_r($philosophy_page_meta);
+                echo "</pre>";
 
-                if($philosophy_page_meta['is-favorite']){
-                    echo esc_html($philosophy_page_meta['page-favorite-text']);
+                echo $philosophy_page_meta['page-upload'];
+                echo "<br/>";
+                echo $philosophy_page_meta['page-image'];
+                echo wp_get_attachment_image($philosophy_page_meta['page-image'],'medium');
+                echo $philosophy_page_meta['page-gallery'];
+                if($philosophy_page_meta['page-gallery']){
+                    $philosophy_gallery_ids = explode(",",$philosophy_page_meta['page-gallery']);
+                    foreach ( $philosophy_gallery_ids as $philosophy_gallery_id ) {
+                        echo "<br/>";
+                        echo wp_get_attachment_image($philosophy_gallery_id,'medium');
+                    }
                 }
                 ?>
 

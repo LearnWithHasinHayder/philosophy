@@ -91,7 +91,6 @@ class CSFramework_Customize extends CSFramework_Abstract {
     }
 
   }
-
   // add customize section
   public function add_section( $wp_customize, $value, $panel = false ) {
 
@@ -105,6 +104,7 @@ class CSFramework_Customize extends CSFramework_Abstract {
         'title'       => $section['title'],
         'priority'    => ( isset( $section['priority'] ) ) ? $section['priority'] : $section_priority,
         'description' => ( isset( $section['description'] ) ) ? $section['description'] : '',
+        'active_callback' => ( isset( $section['active_callback'] ) ) ? $section['active_callback'] : '',
         'panel'       => ( $panel ) ? $panel : '',
       ) );
 
