@@ -72,11 +72,11 @@ if( ! function_exists( 'cs_framework_init' ) && ! class_exists( 'CSFramework' ) 
     cs_locate_template( 'classes/customize.class.php'  );
 
     // configs
-    /*cs_locate_template( 'config/framework.config.php'  );
-    cs_locate_template( 'config/metabox.config.php'    );
-    cs_locate_template( 'config/taxonomy.config.php'   );
-    cs_locate_template( 'config/shortcode.config.php'  );
-    cs_locate_template( 'config/customize.config.php'  );*/
+    cs_locate_template( 'config/framework.config.php'  );
+//    cs_locate_template( 'config/metabox.config.php'    );
+//    cs_locate_template( 'config/taxonomy.config.php'   );
+//    cs_locate_template( 'config/shortcode.config.php'  );
+//    cs_locate_template( 'config/customize.config.php'  );
 
   }
   add_action( 'init', 'cs_framework_init', 10 );

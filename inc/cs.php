@@ -1,13 +1,38 @@
 <?php
-define( 'CS_ACTIVE_FRAMEWORK', false ); // default true
+define( 'CS_ACTIVE_FRAMEWORK', true ); // default true
 define( 'CS_ACTIVE_METABOX', true ); // default true
-define( 'CS_ACTIVE_TAXONOMY', false ); // default true
-define( 'CS_ACTIVE_SHORTCODE', false ); // default true
+define( 'CS_ACTIVE_TAXONOMY', true ); // default true
+define( 'CS_ACTIVE_SHORTCODE', true ); // default true
 define( 'CS_ACTIVE_CUSTOMIZE', false ); // default true
 
+
 function philosophy_csf_metabox() {
+    CSFramework_Taxonomy::instance(array());
     CSFramework_Metabox::instance( array() );
+    CSFramework_Shortcode_Manager::instance( array() );
 }
+
+function philosophy_language_featured_image($options){
+    $options[]    = array(
+        'id'        => 'language_featured_image',
+        'taxonomy' => 'language', // or array( 'category', 'post_tag' )
+
+        // begin: fields
+        'fields'    => array(
+
+            // begin: a field
+            array(
+                'id'    => 'featured_image',
+                'type'  => 'image',
+                'title' => __('Featured Image','philosophy')
+            ),
+
+        ), // end: fields
+    );
+    return $options;
+}
+add_filter('cs_taxonomy_options','philosophy_language_featured_image');
+
 
 add_action( "init", "philosophy_csf_metabox" );
 
@@ -314,10 +339,147 @@ function philosophy_custom_post_types( $options ) {
 add_filter( 'cs_metabox_options', 'philosophy_custom_post_types' );
 
 
+function philosophy_cs_google_map( $options ) {
+    $options[] = array(
+        'name'       => 'group_1',
+        'title'      => 'Group #1',
+        'shortcodes' => array(
+
+            array(
+                'name'   => 'gmap',
+                'title'  => 'Google Map',
+                'fields' => array(
+                    array(
+                        'id'      => 'place',
+                        'type'    => 'text',
+                        'title'   => 'Place',
+                        'help'    => 'Enter Place',
+                        'default' => 'Notre Dame College, Dhaka'
+                    ),
+                    array(
+                        'id'      => 'width',
+                        'type'    => 'text',
+                        'title'   => 'Width',
+                        'default' => '100%'
+                    ),
+                    array(
+                        'id'      => 'height',
+                        'type'    => 'text',
+                        'title'   => 'Height',
+                        'default' => 500
+                    ),
+                    array(
+                        'id'      => 'zoom',
+                        'type'    => 'text',
+                        'title'   => 'Zoom',
+                        'default' => 14,
+                    )
+                ),
+            ),
+
+        )
+    );
+
+    return $options;
+}
+
+add_filter( 'cs_shortcode_options', 'philosophy_cs_google_map' );
+
+function philosophy_theme_option_init(){
+    $settings = array(
+        'menu_title'=>__('Philosophy Options','philosophy'),
+        'menu_type'=>'submenu',
+        'menu_parent'=>'themes.php',
+        'menu_slug'=>'philosophy_option_panel',
+        'framework_title'=>__('Philosophy Options','philosophy'),
+        'menu_icon'=>'dashicons-dashboard',
+        'menu_position'=>20,
+        'ajax_save'=>false,
+        'show_reset_all'=>true
+    );
+
+    $options = philosophy_theme_options();
+    new CSFramework($settings,$options);
+}
+add_action("init","philosophy_theme_option_init");
+
+function philosophy_theme_options(){
+    $options = array();
+    $options[] = array(
+        'name'=>'footer_options',
+        'title'=>__('Footer Options','philosophy'),
+        'icon'=>'fa fa-edit',
+        'fields'=>array(
+            array(
+                'id'=>'footer_tag',
+                'type'=>'switcher',
+                'title'=>__('Tags Area Visible?','philosophy'),
+                'default'=>'0'
+            ),
+            array(
+                'id'    => 'social_facebook',
+                'type'  => 'text',
+                'title' => __('Facebook URL','philosophy')
+            ),array(
+                'id'    => 'social_twitter',
+                'type'  => 'text',
+                'title' => __('Twitter URL','philosophy')
+            ),array(
+                'id'    => 'social_pinterest',
+                'type'  => 'text',
+                'title' => __('Pinterest URL','philosophy')
+            ),
+        )
+    );
+
+    $options[] = array(
+        'name'   => 'section_1',
+        'title'  => 'Section 1',
+        'icon'   => 'fa fa-wifi',
+        'fields' => array(
+
+            // a field
+            array(
+                'id'    => 'metabox_option_id',
+                'type'  => 'text',
+                'title' => 'An Text Option',
+            ),
+
+            // a field
+            array(
+                'id'    => 'metabox_option_other_id',
+                'type'  => 'textarea',
+                'title' => 'An Textarea Option',
+            ),
+
+        ),
+    );
+
+    // begin section
 
 
+    // begin section
+    $options[] = array(
+        'name'   => 'section_2',
+        'title'  => 'Section 2',
+        'icon'   => 'fa fa-heart',
+        'fields' => array(
+
+            // a field
+            array(
+                'id'    => 'metabox_option_2_id',
+                'type'  => 'text',
+                'title' => 'An Text Option',
+            ),
+
+        ),
 
 
+    );
+
+    return $options;
+}
+//add_filter('cs_framework_options','philosophy_theme_options');
 
 
 

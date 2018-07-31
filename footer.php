@@ -49,6 +49,10 @@
 
     </div> <!-- end row -->
 
+    <?php
+    $philosophy_display_tags = cs_get_option('footer_tag');
+    if($philosophy_display_tags):
+    ?>
     <div class="row bottom tags-wrap">
         <div class="col-full tags">
 
@@ -72,6 +76,7 @@
             </div> <!-- end tagcloud -->
         </div> <!-- end tags -->
     </div> <!-- end tags-wrap -->
+    <?php endif; ?>
 
 </section> <!-- end s-extra -->
 
@@ -131,6 +136,7 @@
                 if(is_active_sidebar('footer-right')){
                     dynamic_sidebar('footer-right');
                 }
+
                 ?>
 
                 <div class="subscribe-form">
@@ -146,6 +152,21 @@
                     </form>
                 </div>
 
+                <?php
+                $philosophy_social_facebook = cs_get_option('social_facebook');
+                if($philosophy_social_facebook){
+                    echo "<a target='_blank' href='".esc_url($philosophy_social_facebook)."'><i class='fa fa-facebook'></i></a>";
+                }
+
+                $philosophy_social_twitter = cs_get_option('social_twitter');
+                if($philosophy_social_twitter){
+                    echo "<a target='_blank' href='".esc_url($philosophy_social_twitter)."'><i class='fa fa-twitter'></i></a>";
+                }
+
+
+                ?>
+
+
             </div> <!-- end s-footer__subscribe -->
 
         </div>
@@ -160,6 +181,7 @@
                         dynamic_sidebar('footer-bottom');
                     }
                     ?>
+
                 </div>
 
                 <div class="go-top">
