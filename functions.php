@@ -7,7 +7,7 @@ require_once( get_theme_file_path( "/widgets/social-icons-widget.php" ) );
 require_once( get_theme_file_path( "/lib/csf/cs-framework.php" ) );
 require_once( get_theme_file_path( "/inc/cs.php" ) );
 
-define( 'CS_ACTIVE_LIGHT_THEME',  true  ); // default false
+define( 'CS_ACTIVE_LIGHT_THEME', true ); // default false
 
 
 if ( ! isset( $content_width ) ) {
@@ -271,6 +271,15 @@ function philosophy_cpt_slug_fix( $post_link, $id ) {
         if ( $parent_post ) {
             $post_link = str_replace( "%book%", $parent_post->post_name, $post_link );
         }
+
+        $genre = wp_get_post_terms( $parent_post_id, 'genre' );
+        if ( is_array( $genre ) && count( $genre ) > 0 ) {
+            $slug      = $genre[0]->slug;
+            $post_link = str_replace( "%genre%", $slug, $post_link );
+        } else {
+            $slug      = "generic";
+            $post_link = str_replace( "%genre%", $slug, $post_link );
+        }
     }
 
     if ( is_object( $p ) && 'book' == get_post_type( $p ) ) {
@@ -286,6 +295,7 @@ function philosophy_cpt_slug_fix( $post_link, $id ) {
 
     return $post_link;
 }
+
 
 add_filter( 'post_type_link', 'philosophy_cpt_slug_fix', 1, 2 );
 
@@ -313,10 +323,54 @@ function philosophy_footer_language_terms( $tags ) {
 add_filter( 'philosophy_footer_tag_items', 'philosophy_footer_language_terms' );
 
 
-
-function check_active(){
+function check_active() {
     return false;
 }
+
+function philosophy_wordcount_heading( $heading ) {
+    $heading = "Total Words";
+
+    return $heading;
+}
+
+add_filter( 'wordcount_heading', 'philosophy_wordcount_heading' );
+
+function philosophy_wordcount_tag( $tag ) {
+    return "h4";
+}
+
+add_filter( 'wordcount_tag', 'philosophy_wordcount_tag' );
+
+function philosophy_readingtime_tag( $tag ) {
+    return 'h5';
+}
+
+add_filter( 'wordcount_readingtime_tag', 'philosophy_readingtime_tag' );
+
+function philosophy_exclude_qrcode_post_types( $post_types ) {
+    $post_types[] = 'page';
+
+    //array_push($post_types,'page');
+    return $post_types;
+}
+
+add_filter( 'pqrc_excluded_post_types', 'philosophy_exclude_qrcode_post_types' );
+
+
+function philosophy_qrcode_dimension( $dimension ) {
+    return '100x100';
+}
+
+add_filter( 'pqrc_qrcode_dimension', 'philosophy_qrcode_dimension' );
+
+
+
+
+
+
+
+
+
 
 
 
