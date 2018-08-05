@@ -361,7 +361,7 @@ function philosophy_qrcode_dimension( $dimension ) {
     return '100x100';
 }
 
-add_filter( 'pqrc_qrcode_dimension', 'philosophy_qrcode_dimension' );
+//add_filter( 'pqrc_qrcode_dimension', 'philosophy_qrcode_dimension' );
 
 
 

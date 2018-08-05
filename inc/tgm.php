@@ -86,12 +86,12 @@ function philosophy_register_required_plugins() {
             'required' => true,
             'source'=>'https://github.com/CMB2/cmb2-attached-posts/archive/master.zip'
         ),
-        array(
+        /*array(
             'name'     => 'CodeStar',
             'slug'     => 'codestar-framework',
             'required' => true,
             'source'=>'https://github.com/Codestar/codestar-framework/archive/master.zip'
-        ),
+        ),*/
 
 
     );
