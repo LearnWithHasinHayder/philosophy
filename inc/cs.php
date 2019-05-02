@@ -334,6 +334,7 @@ function philosophy_custom_post_types( $options ) {
             )
         );
     }
+    return $options;
 }
 
 add_filter( 'cs_metabox_options', 'philosophy_custom_post_types' );
