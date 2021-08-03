@@ -388,7 +388,7 @@ add_filter( 'cs_shortcode_options', 'philosophy_cs_google_map' );
 function philosophy_theme_option_init() {
     $settings = array(
         'menu_title'      => __( 'Philosophy Options', 'philosophy' ),
-        'menu_type'       => 'submenu',
+        'menu_type'       => 'menu',
         'menu_parent'     => 'themes.php',
         'menu_slug'       => 'philosophy_option_panel',
         'framework_title' => __( 'Philosophy Options', 'philosophy' ),
